@@ -5,18 +5,21 @@
  *      Author: eugene
  */
 
+#include <algorithm>
+
 #include "Cube.hpp"
 
-void Cube::Traverse(int l, int r, vector<int>::iterator &it, function<void (vector3d&, int, int, vector<int>::iterator&)> fill)
+void Cube::Traverse(int l, int r, vector<int>::iterator &it,
+	function<void (vector3d&, int, int, vector<int>::iterator&)> handle)
 {
 	if (l < 0)
 	{
 		return;
 	}
 
-	fill(cub, l, r, it);
+	handle(cub, l, r, it);
 
-	Traverse(l-1, r+1, it, fill);
+	Traverse(l-1, r+1, it, handle);
 }
 
 void Cube::Build(vector<int> &cubes)
@@ -27,6 +30,8 @@ void Cube::Build(vector<int> &cubes)
 	{
 		throw "Exception: Incorrect input vector size!";
 	}
+
+	sort(cubes.begin(), cubes.end());
 
 	vector<int>::iterator it = cubes.begin();
 

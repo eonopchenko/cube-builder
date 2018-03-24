@@ -8,21 +8,27 @@
 
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 #include "Cube.hpp"
+#include "CubeTest.hpp"
 
 using namespace std;
+
+const int ver_minor = 0;
+const int ver_major = 1;
+
 const int dimension = 5;
 
 int main() {
 
+	cout << "v." << ver_major << "." << ver_minor << " (c++" << __cplusplus << ")" << endl;
+
+#if 0
 	vector<int> cubes;
 	for (int i = 0; i < (dimension*dimension*dimension); i++)
 	{
 		cubes.push_back(i);
 	}
-	sort(cubes.begin(), cubes.end());
 
 	Cube cube(dimension);
 
@@ -37,6 +43,10 @@ int main() {
 	}
 
 	cube.Print();
+#endif
+
+	CubeTest test(5);
+	test.TestCase1();
 
 	return 0;
 }

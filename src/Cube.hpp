@@ -21,13 +21,22 @@ class Cube {
 public:
 	void Print() const;
 	void Build(vector<int> &cubes);
+
+	size_t size()
+	{
+		return cub.size();
+	}
+
 	Cube(int dimension);
+	Cube() = delete;
 
 private:
 	void Traverse(int l, int r, vector<int>::iterator &it,
-			function<void (vector3d&, int, int, vector<int>::iterator&)> fill);
+			function<void (vector3d&, int, int, vector<int>::iterator&)> handle);
 
 	vector3d cub;
+
+	friend class CubeTest;
 };
 
 #endif /* CUBE_HPP_ */
