@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <chrono>
 
 #include "cppunit/ui/text/TestRunner.h"
 #include "CubeTest.hpp"
@@ -26,6 +27,8 @@ const int dimension = 3;	/*!< Cube dimension */
  *
  */
 int main() {
+
+	auto t1 = chrono::high_resolution_clock::now();
 
 	/// Print release version and c++ version
 	cout << "v." << ver_major << "." << ver_minor << " (c++" << __cplusplus << ")" << endl;
@@ -74,6 +77,10 @@ int main() {
 
 	/// Print result
 	cube.Print();
+
+	auto t2 = chrono::high_resolution_clock::now();
+	auto time_span = chrono::duration_cast<chrono::duration<double>>(t2 - t1);
+	cout << "---" << endl << "Total execution time: " << time_span.count() << " seconds." << endl;
 
 	return 0;
 }
