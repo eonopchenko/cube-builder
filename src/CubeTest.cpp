@@ -7,7 +7,9 @@
 
 #include "CubeTest.hpp"
 
-void CubeTest::TestCase1()
+using namespace std;
+
+void CubeTest::runTest()
 {
 	vector<int> cubes;
 	unsigned int size = cube->size();
@@ -25,24 +27,17 @@ void CubeTest::TestCase1()
 	cube->Traverse(l, r, it,
 		[](vector3d &cube, int l, int r, vector<int>::iterator &block)
 		{
-			int error = 0;
 			int cell = 0;
 			for (int y = l; y <= r; y++)
 			{
 				for (int z = l; z <= r; z++)
 				{
-					if (((&cube[l][y][z] != &cube[l][l][l])) && ((cube[l][y][z] - cell) != 1))
+					if ((&cube[l][y][z] != &cube[l][l][l]))
 					{
-						error = 1;
-						cerr << "error" << endl;
+						CPPUNIT_ASSERT( (cube[l][y][z] - cell) == 1 );
 					}
 					cell = cube[l][y][z];
-
-					if ((cube[r][l+r-y][l+r-z] - cell) != 1)
-					{
-						error = 1;
-						cerr << "error" << endl;
-					}
+					CPPUNIT_ASSERT( (cube[r][l+r-y][l+r-z] - cell) == 1 );
 					cell = cube[r][l+r-y][l+r-z];
 				}
 			}
@@ -50,18 +45,9 @@ void CubeTest::TestCase1()
 			{
 				for (int y = l; y <= r; y++)
 				{
-					if ((cube[x][y][l] - cell) != 1)
-					{
-						error = 1;
-						cerr << "error" << endl;
-					}
+					CPPUNIT_ASSERT( (cube[x][y][l] - cell) == 1 );
 					cell = cube[x][y][l];
-
-					if ((cube[l+r-x][l+r-y][r] - cell) != 1)
-					{
-						error = 1;
-						cerr << "error" << endl;
-					}
+					CPPUNIT_ASSERT( (cube[l+r-x][l+r-y][r] - cell) == 1 );
 					cell = cube[l+r-x][l+r-y][r];
 				}
 			}
@@ -69,25 +55,11 @@ void CubeTest::TestCase1()
 			{
 				for (int z = l+1; z <= r-1; z++)
 				{
-					if ((cube[x][l][z] - cell) != 1)
-					{
-						error = 1;
-						cerr << "error" << endl;
-					}
+					CPPUNIT_ASSERT( (cube[x][l][z] - cell) == 1 );
 					cell = cube[x][l][z];
-
-					if ((cube[l+r-x][r][l+r-z] - cell) != 1)
-					{
-						error = 1;
-						cerr << "error" << endl;
-					}
+					CPPUNIT_ASSERT( (cube[l+r-x][r][l+r-z] - cell) == 1 );
 					cell = cube[l+r-x][r][l+r-z];
 				}
-			}
-
-			if (error == 0)
-			{
-				cout << "test ok!" << endl;
 			}
 		});
 }

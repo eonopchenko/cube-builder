@@ -6,11 +6,13 @@
 // Description : EROAD test task (CubeBuilder)
 //============================================================================
 
+#include <cppunit/Test.h>
 #include <iostream>
 #include <vector>
 
-#include "Cube.hpp"
+#include "cppunit/ui/text/TestRunner.h"
 #include "CubeTest.hpp"
+#include "Cube.hpp"
 
 using namespace std;
 
@@ -23,7 +25,22 @@ int main() {
 
 	cout << "v." << ver_major << "." << ver_minor << " (c++" << __cplusplus << ")" << endl;
 
-#if 0
+#ifdef __TEST__
+	cout << "Unit Tests: " << endl;
+	CppUnit::TextUi::TestRunner runner;
+	runner.addTest(new CubeTest(dimension));
+	runner.run();
+#else
+
+#ifdef __DEBUG__
+	cout << "Debug build: " << endl;
+#elif (defined __RELEASE__)
+	cout << "Release build: " << endl;
+#else
+	cout << "Unknown build: " << endl;
+	return 1;
+#endif
+
 	vector<int> cubes;
 	for (int i = 0; i < (dimension*dimension*dimension); i++)
 	{
@@ -43,10 +60,8 @@ int main() {
 	}
 
 	cube.Print();
-#endif
 
-	CubeTest test(5);
-	test.TestCase1();
+#endif // #ifdef __TEST__
 
 	return 0;
 }

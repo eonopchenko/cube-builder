@@ -8,13 +8,16 @@
 #ifndef CUBE_TEST_HPP_
 #define CUBE_TEST_HPP_
 
-#include <functional>
 #include "Cube.hpp"
 
-class CubeTest {
-friend class Cube;
+#include <functional>
+#include <vector>
+
+#include "cppunit/TestCase.h"
+
+class CubeTest : public CppUnit::TestCase {
 public:
-	void TestCase1();
+	void runTest();
 	CubeTest(int dimension) : cube(new Cube(dimension)) {};
 private:
 	Cube *cube;
