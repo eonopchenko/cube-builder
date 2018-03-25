@@ -9,6 +9,9 @@
 
 #include "Cube.hpp"
 
+/*! \brief Cube traversal function.
+ *
+ */
 void Cube::Traverse(int l, int r, vector<int>::iterator &it,
 	function<void (vector3d&, int, int, vector<int>::iterator&)> handle)
 {
@@ -17,24 +20,33 @@ void Cube::Traverse(int l, int r, vector<int>::iterator &it,
 		return;
 	}
 
+	/// Handle the current cube
 	handle(cub, l, r, it);
 
+	/// Recursion
 	Traverse(l-1, r+1, it, handle);
 }
 
+/*! \brief Build a new cube, based on cube set.
+ *
+ */
 void Cube::Build(vector<int> &cubes)
 {
 	unsigned int size = cub.size();
 
+	/// Check input vector dimension
 	if (cubes.size() < size*size*size)
 	{
 		throw "Exception: Incorrect input vector size!";
 	}
 
+	/// Sort the input vector
+	/// IMPORTANT! Suppose that the lower value means lower transparency
 	sort(cubes.begin(), cubes.end());
 
 	vector<int>::iterator it = cubes.begin();
 
+	/// Calculate current cube boundaries (smaller to bigger)
 	int l = ((size-1) / 2) - ((size-1) % 2 == 0 ? 1 : 0);
 	int r = (((size-1) / 2) + 1);
 
@@ -43,9 +55,11 @@ void Cube::Build(vector<int> &cubes)
 		cub[l+1][l+1][l+1] = *it++;
 	}
 
+	/// Traverse the cube
 	Traverse(l, r, it,
 		[](vector3d &cube, int l, int r, vector<int>::iterator &block)
 		{
+			/// Fix X-coordinate
 			for (int y = l; y <= r; y++)
 			{
 				for (int z = l; z <= r; z++)
@@ -54,6 +68,8 @@ void Cube::Build(vector<int> &cubes)
 					cube[r][l+r-y][l+r-z] = *block++;
 				}
 			}
+
+			/// Fix Z-coordinate
 			for (int x = l+1; x <= r-1; x++)
 			{
 				for (int y = l; y <= r; y++)
@@ -62,6 +78,8 @@ void Cube::Build(vector<int> &cubes)
 					cube[l+r-x][l+r-y][r] = *block++;
 				}
 			}
+
+			/// Fix Y-coordinate
 			for (int x = l+1; x <= r-1; x++)
 			{
 				for (int z = l+1; z <= r-1; z++)
@@ -71,15 +89,14 @@ void Cube::Build(vector<int> &cubes)
 				}
 			}
 		});
-
-	if (it != cubes.end())
-	{
-		cout << "warning!" << endl;
-	}
 }
 
+/*! \brief Constructor.
+ *
+ */
 Cube::Cube(int dimension)
 {
+	/// Create the new cube with given dimension
 	vector1d x;
 	vector2d y;
 
@@ -97,8 +114,12 @@ Cube::Cube(int dimension)
 	}
 }
 
+/*! \brief Print the cube to stdout.
+ *
+ */
 void Cube::Print() const
 {
+	/// Traverse the cube and print nodes to the stdout
 	int index = cub.size()-1;
 	int x = 0;
 	int y = 0;

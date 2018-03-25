@@ -2,7 +2,7 @@
 // Name        : CubeBuilder.cpp
 // Author      : Eugene Onopchenko
 // Version     : 1.0
-// Copyright   : Your copyright notice
+// Copyright   : Copyright notice
 // Description : EROAD test task (CubeBuilder)
 //============================================================================
 
@@ -17,39 +17,51 @@
 
 using namespace std;
 
-const int ver_minor = 0;
-const int ver_major = 1;
+const int ver_minor = 0;	/*!< Version minor number */
+const int ver_major = 1;	/*!< Version major number */
 
-const int dimension = 3;
+const int dimension = 3;	/*!< Cube dimension */
 
+/*! \brief Main function.
+ *
+ */
 int main() {
 
+	/// Print release version and c++ version
 	cout << "v." << ver_major << "." << ver_minor << " (c++" << __cplusplus << ")" << endl;
 
+	/// Test build
 #ifdef __TEST__
 	cout << "Unit Tests: " << endl;
 	CppUnit::TextUi::TestRunner runner;
 	runner.addTest(new CubeTest(dimension));
 	runner.run();
-#else
+	return 0;
+#endif
 
+	/// Debug build
 #ifdef __DEBUG__
 	cout << "Debug build: " << endl;
+	/// Release build
 #elif (defined __RELEASE__)
 	cout << "Release build: " << endl;
+	/// Unknown build type
 #else
 	cout << "Unknown build: " << endl;
 	return 1;
 #endif
 
+	/// Generate initial cube set
 	vector<int> cubes;
 	for (int i = 0; i < (dimension*dimension*dimension); i++)
 	{
 		cubes.push_back(rand() % 100);
 	}
 
+	/// Create a new cube
 	Cube cube(dimension);
 
+	/// Build cube, based on the cube set
 	try
 	{
 		cube.Build(cubes);
@@ -60,9 +72,8 @@ int main() {
 		return 1;
 	}
 
+	/// Print result
 	cube.Print();
-
-#endif // #ifdef __TEST__
 
 	return 0;
 }
