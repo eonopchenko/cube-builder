@@ -9,6 +9,7 @@
 #include <cppunit/Test.h>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 #include "cppunit/ui/text/TestRunner.h"
 #include "CubeTest.hpp"
@@ -19,7 +20,7 @@ using namespace std;
 const int ver_minor = 0;
 const int ver_major = 1;
 
-const int dimension = 5;
+const int dimension = 3;
 
 int main() {
 
@@ -44,7 +45,7 @@ int main() {
 	vector<int> cubes;
 	for (int i = 0; i < (dimension*dimension*dimension); i++)
 	{
-		cubes.push_back(i);
+		cubes.push_back(rand() % 100);
 	}
 
 	Cube cube(dimension);
